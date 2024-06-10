@@ -47,6 +47,7 @@ During the Sprint, you will spend 4 hours in class meetings, 4 hours on your tea
     * Youtube
     * W3Schools
     * ChatGPT
+    * Tutorials Point
 
 2. What is your plan to practice the new material?  In other words, what is the order in which you plan to learn the material before working on your demonstration software?
 
@@ -75,7 +76,7 @@ Note that `IM` stands for Individual Module and `TP` stands for Team Project.
 
 |Date      |Start Time|IM or TP|Description                                 |Hours:Minutes|
 |----------|----------|--------|--------------------------------------------|-------------|
-|          |          |        |                                            |             |
+| 9/10/24  |  11:20   |  IM    | Creating test tables and starting inserts  |             |
 |          |          |        |                                            |             |
 |          |          |        |                                            |             |
 |          |          |        |                                            |             |
