@@ -1,9 +1,10 @@
-import sqlite3
-from tkinter import Tk, StringVar, messagebox
-from ttkthemes import ThemedTk
+import tkinter as tk
 from tkinter import ttk
+from tkinter import StringVar, messagebox
+from ttkthemes import ThemedTk
 from PIL import Image, ImageTk
 import io
+import sqlite3
 
 class App(ThemedTk):
     def __init__(self, *args, **kwargs):
@@ -113,15 +114,19 @@ class ViewUsersPage(ttk.Frame):
         label = ttk.Label(self, text="View Users", font=("Arial", 16))
         label.pack(pady=10, padx=10)
         
-        self.tree = ttk.Treeview(self, columns=("ID", "First Name", "Last Name", "Username", "Rank", "Icon", "Points"), show="headings")
-        self.tree.heading("ID", text="ID")
-        self.tree.heading("First Name", text="First Name")
-        self.tree.heading("Last Name", text="Last Name")
-        self.tree.heading("Username", text="Username")
-        self.tree.heading("Rank", text="Rank")
-        self.tree.heading("Icon", text="Icon")
-        self.tree.heading("Points", text="Points")
-        self.tree.pack(pady=10, padx=10, fill="both", expand=True)
+        # Create a canvas and a frame for the content
+        self.canvas = tk.Canvas(self)
+        self.scroll_y = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
+        self.scroll_x = ttk.Scrollbar(self, orient="horizontal", command=self.canvas.xview)
+        
+        self.scroll_y.pack(side="right", fill="y")
+        self.scroll_x.pack(side="bottom", fill="x")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        
+        self.canvas.configure(yscrollcommand=self.scroll_y.set, xscrollcommand=self.scroll_x.set)
+        
+        self.frame = ttk.Frame(self.canvas)
+        self.canvas.create_window((0, 0), window=self.frame, anchor="nw")
         
         self.image_labels = {}
         
@@ -130,10 +135,15 @@ class ViewUsersPage(ttk.Frame):
         
         back_button = ttk.Button(self, text="Back", command=lambda: controller.show_frame("StartPage"))
         back_button.pack(pady=10)
+        
+        self.frame.bind("<Configure>", self.on_frame_configure)
+    
+    def on_frame_configure(self, event):
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
     
     def view_users(self):
-        for row in self.tree.get_children():
-            self.tree.delete(row)
+        for widget in self.frame.winfo_children():
+            widget.destroy()
         
         conn = sqlite3.connect('typing.db')
         cursor = conn.execute("""
@@ -144,9 +154,25 @@ class ViewUsersPage(ttk.Frame):
         
         for row in cursor:
             user_id, fname, lname, username, points, rankname, icon_blob = row
-            image = ImageTk.PhotoImage(Image.open(io.BytesIO(icon_blob)))
-            self.image_labels[user_id] = image  # Keep a reference to avoid garbage collection
-            self.tree.insert("", "end", values=(user_id, fname, lname, username, rankname, "Icon", points))
+            row_frame = ttk.Frame(self.frame)
+            row_frame.pack(fill="x")
+            
+            tk.Label(row_frame, text=user_id, width=10).pack(side="left")
+            tk.Label(row_frame, text=fname, width=20).pack(side="left")
+            tk.Label(row_frame, text=lname, width=20).pack(side="left")
+            tk.Label(row_frame, text=username, width=20).pack(side="left")
+            tk.Label(row_frame, text=rankname, width=20).pack(side="left")
+            
+            # Load and resize the image
+            image = Image.open(io.BytesIO(icon_blob))
+            image = image.resize((50, 50), Image.LANCZOS)  # Resize to 50x50 pixels
+            photo_image = ImageTk.PhotoImage(image)
+            
+            self.image_labels[user_id] = photo_image  # Keep a reference to avoid garbage collection
+            image_label = tk.Label(row_frame, image=photo_image, width=50)
+            image_label.pack(side="left")
+            
+            tk.Label(row_frame, text=points, width=10).pack(side="left")
         
         conn.close()
 
@@ -208,14 +234,6 @@ def get_bronze_rank_id():
     bronze_rank_id = cursor.fetchone()[0]
     conn.close()
     return bronze_rank_id
-
-def retrieve_image(rank_id):
-    conn = sqlite3.connect('typing.db')
-    cursor = conn.execute("SELECT icon FROM Rank WHERE ID=?", (rank_id,))
-    blob_data = cursor.fetchone()[0]
-    conn.close()
-    image = Image.open(io.BytesIO(blob_data))
-    return ImageTk.PhotoImage(image)
 
 if __name__ == "__main__":
     app = App()

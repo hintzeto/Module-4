@@ -78,7 +78,7 @@ Note that `IM` stands for Individual Module and `TP` stands for Team Project.
 |----------|----------|--------|--------------------------------------------|-------------|
 | 6/10/24  |  11:20   |  IM    | Creating test tables and starting inserts  |    1:14     |
 | 6/11/24  |  8:21    |  IM    | Creating a GUI for user entry              |    1:24     |
-|          |          |        |                                            |             |
+| 6/15/24  |  10:21   |  IM    | Learning more SQL                          |    0:57     |
 |          |          |        |                                            |             |
 |          |          |        |                                            |             |
 |          |          |        |                                            |             |
