@@ -19,7 +19,7 @@ class App(ThemedTk):
         container.grid_columnconfigure(0, weight=1)
         
         self.frames = {}
-        for F in (StartPage, AddUserPage, ViewUsersPage, AddPointsPage):
+        for F in (StartPage, AddUserPage, ViewUsersPage, AddPointsPage, EditUserPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -173,8 +173,32 @@ class ViewUsersPage(ttk.Frame):
             image_label.pack(side="left")
             
             tk.Label(row_frame, text=points, width=10).pack(side="left")
+
+            edit_button = ttk.Button(row_frame, text="Edit", command=lambda uid=user_id, fn=fname, ln=lname, un=username: self.edit_user(uid, fn, ln, un))
+            edit_button.pack(side="left")
+
+            delete_button = ttk.Button(row_frame, text="Delete", command=lambda uid=user_id: self.delete_user(uid))
+            delete_button.pack(side="left")
         
         conn.close()
+
+    def edit_user(self, user_id, fname, lname, username):
+        edit_page = self.controller.frames["EditUserPage"]
+        edit_page.load_user(user_id, fname, lname, username)
+        self.controller.show_frame("EditUserPage")
+
+    def delete_user(self, user_id):
+        confirm = messagebox.askyesno("Delete User", "Are you sure you want to delete this user?")
+        if confirm:
+            try:
+                conn = sqlite3.connect('typing.db')
+                conn.execute("DELETE FROM User WHERE ID = ?", (user_id,))
+                conn.commit()
+                conn.close()
+                messagebox.showinfo("Success", "User successfully deleted.")
+                self.view_users()
+            except sqlite3.Error as e:
+                messagebox.showerror("Database Error", f"An error occurred: {e}")
 
 class AddPointsPage(ttk.Frame):
     def __init__(self, parent, controller):
@@ -227,6 +251,65 @@ class AddPointsPage(ttk.Frame):
                 messagebox.showerror("Database Error", f"An error occurred: {e}")
         else:
             messagebox.showwarning("Input Error", "All fields are required and points must be a number.")
+
+class EditUserPage(ttk.Frame):
+    def __init__(self, parent, controller):
+        ttk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        label = ttk.Label(self, text="Edit User", font=("Arial", 16))
+        label.pack(pady=10, padx=10)
+
+        self.fname_var = StringVar()
+        self.lname_var = StringVar()
+        self.username_var = StringVar()
+        self.user_id = None
+
+        fname_label = ttk.Label(self, text="First Name:")
+        fname_label.pack(pady=5)
+        self.fname_entry = ttk.Entry(self, textvariable=self.fname_var)
+        self.fname_entry.pack(pady=5)
+
+        lname_label = ttk.Label(self, text="Last Name:")
+        lname_label.pack(pady=5)
+        self.lname_entry = ttk.Entry(self, textvariable=self.lname_var)
+        self.lname_entry.pack(pady=5)
+
+        username_label = ttk.Label(self, text="Username:")
+        username_label.pack(pady=5)
+        self.username_entry = ttk.Entry(self, textvariable=self.username_var)
+        self.username_entry.pack(pady=5)
+
+        update_user_button = ttk.Button(self, text="Update User", command=self.update_user)
+        update_user_button.pack(pady=10)
+
+        back_button = ttk.Button(self, text="Back", command=lambda: controller.show_frame("ViewUsersPage"))
+        back_button.pack(pady=10)
+
+    def load_user(self, user_id, fname, lname, username):
+        self.user_id = user_id
+        self.fname_var.set(fname)
+        self.lname_var.set(lname)
+        self.username_var.set(username)
+
+    def update_user(self):
+        fname = self.fname_var.get()
+        lname = self.lname_var.get()
+        username = self.username_var.get()
+
+        if fname and lname and username:
+            try:
+                conn = sqlite3.connect('typing.db')
+                conn.execute("UPDATE User SET fname = ?, lname = ?, username = ? WHERE ID = ?",
+                             (fname, lname, username, self.user_id))
+                conn.commit()
+                conn.close()
+                messagebox.showinfo("Success", f"User {fname} {lname} successfully updated.")
+                self.controller.show_frame("ViewUsersPage")
+            except sqlite3.Error as e:
+                messagebox.showerror("Database Error", f"An error occurred: {e}")
+        else:
+            messagebox.showwarning("Input Error", "All fields are required.")
 
 def get_bronze_rank_id():
     conn = sqlite3.connect('typing.db')
