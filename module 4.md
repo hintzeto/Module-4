@@ -79,9 +79,10 @@ Note that `IM` stands for Individual Module and `TP` stands for Team Project.
 | 6/10/24  |  11:20   |  IM    | Creating test tables and starting inserts  |    1:14     |
 | 6/11/24  |  8:21    |  IM    | Creating a GUI for user entry              |    1:24     |
 | 6/15/24  |  10:21   |  IM    | Learning more SQL                          |    0:57     |
-| 6/18/24  |  6:14    |  IM    | Adding functionality                       |             |
-|          |          |        |                                            |             |
-|          |          |        |                                            |             |
+| 6/18/24  |  6:14    |  IM    | Adding functionality                       |    1:34     |
+| 6/18/24  |  9:07    |  TP    | Reinitializing Django                      |    2:02     |
+| 6/20/24  |  8:30    |  IM    | Researching and learning larger datasets   |    4:00     |
+| 6/21/24  |  1:28    |  IM    | Documentation write ups                    |         |
 
 _Note: Add more rows as needed._
 
@@ -92,27 +93,36 @@ This section should be filled out at the end of the Sprint and submitted.
 
 1. Put your GitHub link for your demonstration software here: 
 
+    https://github.com/hintzeto/Module-4.git
+
 2. Put your YouTube link for your code walkthrough and demo video here:
+
+    
 
 3. Complete the following checklist by either indicating "Yes" or "No". If you indicate "No" then provide an explanation of why beneath the table.
 
 |Question                                                    |Response|
 |------------------------------------------------------------|--------|
 |Are the links above public and working?                     |        |
-|Did you complete all the unique requirements for the module?|        |
-|Did you write at least 100 lines of code?                   |        |
-|Did you fully complete the readme.md file?                  |        |
-|Did you put the readme.md file in GitHub in the top folder? |        |
+|Did you complete all the unique requirements for the module?|   Yes  |
+|Did you write at least 100 lines of code?                   |   Yes  |
+|Did you fully complete the readme.md file?                  |   Yes  |
+|Did you put the readme.md file in GitHub in the top folder? |   Yes  |
 
 4. If you completed a Stretch Challenge (as shown in the Module Description document in Canvas) then describe what you did.  If you did the Choose Your Own Adventure module, then you get to decide what qualifies as a Stretch Challenge.
 
+    I used multiple tables with a join and made a trigger that automatically fills out certain fields under certain conditions.
+
 5. Did you change your selected module during the middle of the Sprint?  If yes, then describe what you changed it to, when you changed it, and why you changed it.
+
+    No.
 
 6. Using the log above, fill in the total hours and minutes you spent on the individual module:
 
 |Activity         |Total Hours:Minutes|
 |-----------------|-------------------|
-|Individual Module|                   |
+|Individual Module|      9:09         |
 
 7. What strategies (behavioral and technical) worked well during this Sprint?  What did not work well?  List some possible ways that you can improve next Sprint.
 
+    Something that worked well was stacking. I realized that I do a lot of learning outside of particular study for this class that helps with this course's content. Realizing this connection helped me to learn and apply knowledge faster. Something I can improve on for next sprint is doing more tutorials. I really struggle with hittting my time requirements even though I meet the other requirements.
