@@ -82,7 +82,7 @@ Note that `IM` stands for Individual Module and `TP` stands for Team Project.
 | 6/18/24  |  6:14    |  IM    | Adding functionality                       |    1:34     |
 | 6/18/24  |  9:07    |  TP    | Reinitializing Django                      |    2:02     |
 | 6/20/24  |  8:30    |  IM    | Researching and learning larger datasets   |    4:00     |
-| 6/21/24  |  1:28    |  IM    | Documentation write ups                    |         |
+| 6/21/24  |  1:28    |  IM    | Documentation write ups                    |    1:28     |
 
 _Note: Add more rows as needed._
 
@@ -97,13 +97,13 @@ This section should be filled out at the end of the Sprint and submitted.
 
 2. Put your YouTube link for your code walkthrough and demo video here:
 
-    
+    https://youtu.be/AfKvg26pLpI
 
 3. Complete the following checklist by either indicating "Yes" or "No". If you indicate "No" then provide an explanation of why beneath the table.
 
 |Question                                                    |Response|
 |------------------------------------------------------------|--------|
-|Are the links above public and working?                     |        |
+|Are the links above public and working?                     |   Yes  |
 |Did you complete all the unique requirements for the module?|   Yes  |
 |Did you write at least 100 lines of code?                   |   Yes  |
 |Did you fully complete the readme.md file?                  |   Yes  |
